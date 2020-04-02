@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "Oscillator.h"
 #include "Envelope.h"
+#include "Filter.h"
 
 //==============================================================================
 /**
@@ -37,6 +38,7 @@ class SynthAudioProcessorEditor  : public AudioProcessorEditor{
 
         Oscillator oscGui;
         Envelope envGui;
+        Filter filterGui;
 
         //ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackTree;
         //ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseTree;

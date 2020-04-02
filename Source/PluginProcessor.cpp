@@ -29,6 +29,7 @@ SynthAudioProcessor::SynthAudioProcessor()
     NormalisableRange<float> attackParam(0.1f, 5000.0f);
     NormalisableRange<float> releaseParam(0.1f, 5000.0f);
     NormalisableRange<float> waveTypeParam(0, 2);
+
     NormalisableRange<float> filterVal(20.0f, 10000.0f);
     NormalisableRange<float> resVal(1, 5);
     NormalisableRange<float> filterTypeVal(0, 2);
@@ -188,11 +189,11 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
                 float* newReleaseFloatPtr = (float*)tree.getRawParameterValue("release");
                 float* newWaveFloatPtr = (float*)tree.getRawParameterValue("wavetype");
 
-                float* newResFloatPtr = (float*)tree.getRawParameterValue("filterRes");
-                float* newFilterFloatPtr = (float*)tree.getRawParameterValue("filterCutoff");
                 float* newFilterTypeFloatPtr = (float*)tree.getRawParameterValue("filterType");
+                float* newFilterFloatPtr = (float*)tree.getRawParameterValue("filterCutoff");
+                float* newResFloatPtr = (float*)tree.getRawParameterValue("filterRes");
 
-                myVoice->getParam(newAttackFloatPtr, newReleaseFloatPtr);
+                myVoice->getEnvelopeParam(newAttackFloatPtr, newReleaseFloatPtr);
                 myVoice->getOscType(newWaveFloatPtr);
                 myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
 
