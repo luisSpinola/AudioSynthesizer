@@ -21,9 +21,28 @@ SynthAudioProcessor::SynthAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+    tree(*this, nullptr)
 #endif 
 {
+    //tree.state = ValueTree("Foo");
+    NormalisableRange<float> attackParam(0.1f, 5000.0f);
+    NormalisableRange<float> releaseParam(0.1f, 5000.0f);
+    NormalisableRange<float> waveTypeParam(0, 2);
+    NormalisableRange<float> filterVal(20.0f, 10000.0f);
+    NormalisableRange<float> resVal(1, 5);
+    NormalisableRange<float> filterTypeVal(0, 2);
+
+
+    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
+    tree.createAndAddParameter("release", "Release", "Release", releaseParam, 0.1f, nullptr, nullptr);
+
+    tree.createAndAddParameter("wavetype", "WaveType", "wavetype", waveTypeParam, 0,nullptr,nullptr);
+
+    tree.createAndAddParameter("filterType", "FilterType", "filterType", filterTypeVal, 0, nullptr, nullptr);
+    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "filterCutoff",filterVal,400.0f,nullptr,nullptr);
+    tree.createAndAddParameter("filterRes", "FilterRes", "filterRes",resVal,1,nullptr,nullptr);
+
     mySynth.clearVoices();
     for (int i = 0; i < 5; i++) {
         mySynth.addVoice(new SynthVoice());
@@ -136,11 +155,11 @@ bool SynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 }
 #endif
 
-void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
-{
+//this is like the main
+void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) {
     ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    //auto totalNumInputChannels  = getTotalNumInputChannels();
+    //auto totalNumOutputChannels = getTotalNumOutputChannels();
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -148,8 +167,8 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     // This is here to avoid people getting screaming feedback
     // when they first compile a plugin, but obviously you don't need to keep
     // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
+    //for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+    //    buffer.clear (i, 0, buffer.getNumSamples());
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -157,12 +176,31 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    //for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+    //    auto* channelData = buffer.getWritePointer (channel);
 
         // ..do something to the data...
+    //}
+
+    for (int i = 0; i < mySynth.getNumVoices(); i++) {
+        if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))) {
+                float* newAttackFloatPtr = (float*)tree.getRawParameterValue("attack");
+                float* newReleaseFloatPtr = (float*)tree.getRawParameterValue("release");
+                float* newWaveFloatPtr = (float*)tree.getRawParameterValue("wavetype");
+
+                float* newResFloatPtr = (float*)tree.getRawParameterValue("filterRes");
+                float* newFilterFloatPtr = (float*)tree.getRawParameterValue("filterCutoff");
+                float* newFilterTypeFloatPtr = (float*)tree.getRawParameterValue("filterType");
+
+                myVoice->getParam(newAttackFloatPtr, newReleaseFloatPtr);
+                myVoice->getOscType(newWaveFloatPtr);
+                myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
+
+
+        }
     }
+    buffer.clear();
+    mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
 //==============================================================================

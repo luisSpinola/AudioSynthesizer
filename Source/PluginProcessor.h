@@ -57,9 +57,13 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    //variables
+    float attackTime;
+    float releaseTime;
+    AudioProcessorValueTreeState tree;
 private:
     Synthesiser mySynth;
-    SynthVoice myVoice;
+    SynthVoice* myVoice;
     double lastSampleRate;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthAudioProcessor)
