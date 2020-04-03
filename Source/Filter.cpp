@@ -12,12 +12,13 @@ Filter::Filter(SynthAudioProcessor& p) : processor(p){
 	filterTypeVal = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "filterType", filterMenu);
 
 	filterCutoff.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-	filterCutoff.setRange(20.0, 10000.0);
+	filterCutoff.setRange(20.0, 3000.0);
 	filterCutoff.setValue(400.0);
 	filterCutoff.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterCutoff);
+	
 	filterVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "filterCutoff", filterCutoff);
-	filterCutoff.setSkewFactorFromMidPoint(1000.0);
+	
 
 	filterRes.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
 	filterRes.setRange(1, 5);
@@ -25,6 +26,8 @@ Filter::Filter(SynthAudioProcessor& p) : processor(p){
 	filterRes.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterRes);
 	resVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "filterRes", filterRes);
+
+	//filterCutoff.setSkewFactorFromMidPoint(1000.0);
 }
 Filter::~Filter() {
 

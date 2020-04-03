@@ -95,7 +95,7 @@ class SynthVoice : public SynthesiserVoice {
                 //double theSound = setEnvelope();
                 //double filteredSound = filter1.lores(theSound, 100, 0.1);
                 for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
-                    outputBuffer.addSample(channel, startSample, setFilter() * 0.3f);
+                    outputBuffer.addSample(channel, startSample, setEnvelope() * 0.3f);
                 }
                 ++startSample;
             }
