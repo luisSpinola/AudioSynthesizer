@@ -39,6 +39,8 @@
       <FILE id="JY36tA" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="TXRK6A" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
       <FILE id="sWKwiF" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+      <FILE id="AoWRIj" name="Oscillator2.h" compile="0" resource="0" file="Source/Oscillator2.h"/>
+      <FILE id="ZJjhXS" name="Oscillator2.cpp" compile="1" resource="0" file="Source/Oscillator2.cpp"/>
       <FILE id="MxclWg" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
       <FILE id="pjVtpp" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
       <FILE id="QknDtn" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>

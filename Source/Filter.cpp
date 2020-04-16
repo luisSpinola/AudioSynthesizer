@@ -38,7 +38,7 @@ void Filter::paint(Graphics& g) {
 	g.setColour(Colours::white);
 	g.drawText("Filter", titleArea, Justification::centredTop);
 
-	juce::Rectangle<float> area(25, 25, 150, 150);
+	juce::Rectangle<float> area(25, 25, 550, 150);
 
 	g.setColour(Colours::yellow);
 	g.drawRoundedRectangle(area, 20.0f, 2.0f);

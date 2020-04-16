@@ -33,7 +33,7 @@ void Envelope::paint(Graphics& g) {
     g.drawText("A", 53, 150, 20, 20, Justification::centredTop);
     g.drawText("R", 77, 150, 20, 20, Justification::centredTop);
 
-    juce::Rectangle<float> area(25, 25, 150, 150);
+    juce::Rectangle<float> area(25, 25, 550, 150);
     g.setColour(Colours::yellow);
     g.drawRoundedRectangle(area, 20.0f, 2.0f);
 }

@@ -13,13 +13,14 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "Oscillator.h"
+#include "Oscillator2.h"
 #include "Envelope.h"
 #include "Filter.h"
 
 //==============================================================================
 /**
 */
-class SynthAudioProcessorEditor  : public AudioProcessorEditor{
+class SynthAudioProcessorEditor  : public AudioProcessorEditor {
     public:
         SynthAudioProcessorEditor (SynthAudioProcessor&);
         ~SynthAudioProcessorEditor();
@@ -37,6 +38,7 @@ class SynthAudioProcessorEditor  : public AudioProcessorEditor{
         SynthAudioProcessor& processor;
 
         Oscillator oscGui;
+        Oscillator2 osc2Gui;
         Envelope envGui;
         Filter filterGui;
 

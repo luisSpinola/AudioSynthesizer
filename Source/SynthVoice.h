@@ -20,23 +20,43 @@ class SynthVoice : public SynthesiserVoice {
             return dynamic_cast<SynthSound*>(sound) != nullptr;
         }
         
-        //OSCILLATOR
+        //OSCILLATORS
         void getOscType(float* selection) {
             theWave = *selection;
         }
+        void getOsc2Type(float* selection) {
+            theWave2 = *selection;
+        }
+
         double setOscType() {
-            if (theWave == 0) {
-                return osc1.sinewave(frequency);
+            double sample1, sample2;
+            switch (theWave) {
+                case 0:
+                    sample1 = osc1.square(frequency);
+                    break;
+                case 1:
+                    sample1 = osc1.saw(frequency);
+                    break;
+                default:
+                    sample1 = osc1.sinewave(frequency);
+                    break;
             }
-            else if (theWave == 1) {
-                return osc1.saw(frequency);
+            switch (theWave2) {
+                case 0:
+                    sample2 = osc2.saw(frequency / 2.0);
+                    break;
+                case 1:
+                    sample2 = osc2.square(frequency / 2.0);
+                    break;
+                default:
+                    sample2 = osc2.sinewave(frequency / 2.0);
+                    break;
             }
-            else if (theWave == 2) {
-                return osc1.square(frequency);
-            }
-            else {
-                return osc1.sinewave(frequency);
-            }
+            return sample1 + osc2blend * sample2;
+        }
+
+        void getBlendParam(float* blend1) {
+            osc2blend = *blend1;
         }
 
         //ENVELOPE
@@ -105,14 +125,15 @@ class SynthVoice : public SynthesiserVoice {
         double level;
         double frequency;
 
-        int theWave;
+        int theWave, theWave2;
+        float osc2blend;
 
         float filterChoice;
         float cutoff;
         float resonance;
 
 
-        maxiOsc osc1;
+        maxiOsc osc1, osc2;
         maxiEnv env1;
         maxiFilter filter1;
 };

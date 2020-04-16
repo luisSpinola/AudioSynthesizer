@@ -12,11 +12,12 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), oscGui(p), envGui(p), filterGui(p) {
+SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), oscGui(p), osc2Gui(p), envGui(p), filterGui(p) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (600, 200);
+    setSize (600, 600);
     addAndMakeVisible(&oscGui);
+    addAndMakeVisible(&osc2Gui);
     addAndMakeVisible(&envGui);
     addAndMakeVisible(&filterGui);
     //ATTACK
@@ -57,14 +58,15 @@ void SynthAudioProcessorEditor::paint (Graphics& g) {
 void SynthAudioProcessorEditor::resized() {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    
-
     juce::Rectangle<int> area = getLocalBounds();
     const int componentWidth = 200;
     const int componentHeight = 200;
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    osc2Gui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    filterGui.setBounds(0,200,600,200);
+    envGui.setBounds(0,400,600,200);
+    //filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    //envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
 }
 
 

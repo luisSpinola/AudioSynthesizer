@@ -26,19 +26,28 @@ SynthAudioProcessor::SynthAudioProcessor()
 #endif 
 {
     //tree.state = ValueTree("Foo");
+    //ENVELOPE
     NormalisableRange<float> attackParam(0.1f, 5000.0f);
     NormalisableRange<float> releaseParam(0.1f, 5000.0f);
+
+    //OSCILLATORS
     NormalisableRange<float> waveTypeParam(0, 2);
+    NormalisableRange<float> waveTypeParam2(0, 2);
 
     NormalisableRange<float> filterVal(20.0f, 3000.0f);
     NormalisableRange<float> resVal(1, 5);
     NormalisableRange<float> filterTypeVal(0, 2);
+
+    NormalisableRange<float> blendVal(0.0f, 1.f);
 
 
     tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 0.1f, nullptr, nullptr);
 
     tree.createAndAddParameter("wavetype", "WaveType", "wavetype", waveTypeParam, 0,nullptr,nullptr);
+    tree.createAndAddParameter("wavetype2", "WaveType2", "wavetype2", waveTypeParam2, 0,nullptr,nullptr);
+
+    tree.createAndAddParameter("blend", "Osc2Blend", "blend", blendVal, 0.0f, nullptr, nullptr);
 
     tree.createAndAddParameter("filterType", "FilterType", "filterType", filterTypeVal, 0, nullptr, nullptr);
     tree.createAndAddParameter("filterCutoff", "FilterCutoff", "filterCutoff",filterVal,400.0f,nullptr,nullptr);
@@ -201,14 +210,20 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))) {
                 float* newAttackFloatPtr = (float*)tree.getRawParameterValue("attack");
                 float* newReleaseFloatPtr = (float*)tree.getRawParameterValue("release");
+
                 float* newWaveFloatPtr = (float*)tree.getRawParameterValue("wavetype");
+                float* newWave2FloatPtr = (float*)tree.getRawParameterValue("wavetype2");
+
+                float* newBlend1FloatPtr = (float*)tree.getRawParameterValue("blend");
 
                 float* newFilterTypeFloatPtr = (float*)tree.getRawParameterValue("filterType");
                 float* newFilterFloatPtr = (float*)tree.getRawParameterValue("filterCutoff");
                 float* newResFloatPtr = (float*)tree.getRawParameterValue("filterRes");
 
+                myVoice->getBlendParam(newBlend1FloatPtr);
                 myVoice->getEnvelopeParam(newAttackFloatPtr, newReleaseFloatPtr);
                 myVoice->getOscType(newWaveFloatPtr);
+                myVoice->getOsc2Type(newWave2FloatPtr);
                 myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
 
 
@@ -222,33 +237,28 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 }
 
 //==============================================================================
-bool SynthAudioProcessor::hasEditor() const
-{
+bool SynthAudioProcessor::hasEditor() const {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* SynthAudioProcessor::createEditor()
-{
+AudioProcessorEditor* SynthAudioProcessor::createEditor() {
     return new SynthAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void SynthAudioProcessor::getStateInformation (MemoryBlock& destData)
-{
+void SynthAudioProcessor::getStateInformation (MemoryBlock& destData) {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void SynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
+void SynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
 
 //==============================================================================
 // This creates new instances of the plugin..
-AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
+AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
     return new SynthAudioProcessor();
 }
