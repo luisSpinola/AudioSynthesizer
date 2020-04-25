@@ -6,6 +6,8 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
     setSize(200, 200);
 
     attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+    attackSlider.setColour(Slider::trackColourId, Colours::black);
+    attackSlider.setColour(Slider::thumbColourId, Colours::black);
     attackSlider.setRange(0.1f, 5000.0f);
     attackSlider.setValue(0.1f);
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -14,6 +16,8 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
 
     //RELEASE
     releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+    releaseSlider.setColour(Slider::trackColourId, Colours::black);
+    releaseSlider.setColour(Slider::thumbColourId, Colours::black);
     releaseSlider.setRange(0.1f, 5000.0f);
     releaseSlider.setValue(0.1f);
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -34,8 +38,10 @@ void Envelope::paint(Graphics& g) {
     g.drawText("R", 77, 150, 20, 20, Justification::centredTop);
 
     juce::Rectangle<float> area(25, 25, 550, 150);
-    g.setColour(Colours::yellow);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.setColour(Colours::grey);
+    g.drawRect(area, 5.0f);
+    g.fillRect(area);
+    //g.drawRoundedRectangle(area, 20.0f, 2.0f);
 }
 void Envelope::resized() {
     juce::Rectangle<int> area = getLocalBounds().reduced(50);

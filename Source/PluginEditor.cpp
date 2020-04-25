@@ -61,8 +61,9 @@ void SynthAudioProcessorEditor::resized() {
     juce::Rectangle<int> area = getLocalBounds();
     const int componentWidth = 200;
     const int componentHeight = 200;
-    oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    osc2Gui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    oscGui.setBounds(0,0,200,200);
+    osc2Gui.setBounds(200,0,200,200);
+
     filterGui.setBounds(0,200,600,200);
     envGui.setBounds(0,400,600,200);
     //filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));

@@ -14,9 +14,9 @@
 //==============================================================================
 Oscillator::Oscillator(SynthAudioProcessor& p) : processor(p){
     setSize(200, 200);
-    oscMenu.addItem("Sine", 1);
+    oscMenu.addItem("Square", 1);
     oscMenu.addItem("Saw", 2);
-    oscMenu.addItem("Square", 3);
+    oscMenu.addItem("Sine", 3);
 
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
@@ -36,8 +36,11 @@ void Oscillator::paint(Graphics& g) {
 
     juce::Rectangle<float> area(25, 25, 150, 150);
 
-    g.setColour(Colours::yellow);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.setColour(Colours::grey);
+    g.drawRect(area, 5.0f);
+    g.fillRect(area);
+    //g.setColour(Colours::yellow);
+    //g.drawRoundedRectangle(area, 20.0f, 2.0f);
 }
 
 void Oscillator::resized() {
