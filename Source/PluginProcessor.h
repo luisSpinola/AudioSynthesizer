@@ -61,13 +61,16 @@ public:
 
     //variables
     AudioProcessorValueTreeState tree;
+    MidiKeyboardState keyboardState;
+    MidiKeyboardComponent keyboardComponent{ keyboardState, MidiKeyboardComponent::horizontalKeyboard };
+    MidiMessageCollector midiCollector;
 private:
     Synthesiser mySynth;
     SynthVoice* myVoice;
-
+    
     dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> stateVariableFilter;
 
-    double lastSampleRate;
+    double lastSampleRate = 0;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthAudioProcessor)
 };

@@ -44,7 +44,7 @@ void Filter::paint(Graphics& g) {
 	g.drawText("Filter", titleArea, Justification::centredTop);
 
 
-	Image splash = ImageFileFormat::loadFrom(BinaryData::Sprit_png, (size_t)BinaryData::Sprit_pngSize);
+	//Image splash = ImageFileFormat::loadFrom(BinaryData::Sprit_png, (size_t)BinaryData::Sprit_pngSize);
 	
 	juce::Rectangle<float> area(25, 25, 550, 150);
 

@@ -11,8 +11,9 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
 //==============================================================================
-SynthAudioProcessor::SynthAudioProcessor()
+SynthAudioProcessor::SynthAudioProcessor() 
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -21,7 +22,7 @@ SynthAudioProcessor::SynthAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       ),
+                       ), 
     tree(*this, nullptr)
 #endif 
 {
@@ -57,6 +58,7 @@ SynthAudioProcessor::SynthAudioProcessor()
     for (int i = 0; i < 5; i++) {
         mySynth.addVoice(new SynthVoice());
     }
+
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
 }
@@ -155,12 +157,16 @@ void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     // Use this method as the place to do any pre-playback initialisation that you need
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
+    midiCollector.reset(sampleRate);
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
 
     dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
+
+    
+
 
     stateVariableFilter.reset();
     stateVariableFilter.prepare(spec);
@@ -204,7 +210,9 @@ bool SynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) {
     ScopedNoDenormals noDenormals;
    
-
+    //MidiBuffer incomingMidi;
+    midiCollector.removeNextBlockOfMessages(midiMessages,buffer.getNumSamples());
+    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
     for (int i = 0; i < mySynth.getNumVoices(); i++) {
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))) {
@@ -225,11 +233,9 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
                 myVoice->getOscType(newWaveFloatPtr);
                 myVoice->getOsc2Type(newWave2FloatPtr);
                 myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
-
-
         }
     }
-    buffer.clear();
+
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     updateFilter();
     dsp::AudioBlock<float> block(buffer);

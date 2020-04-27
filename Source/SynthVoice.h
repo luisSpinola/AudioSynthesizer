@@ -14,12 +14,13 @@
 #include "SynthSound.h"
 #include "maximilian.h"
 
-class SynthVoice : public SynthesiserVoice {
+class SynthVoice : public SynthesiserVoice{
     public:
         bool canPlaySound(SynthesiserSound* sound) override {
             return dynamic_cast<SynthSound*>(sound) != nullptr;
         }
-        
+
+       
         //OSCILLATORS
         void getOscType(float* selection) {
             theWave = *selection;
@@ -96,7 +97,7 @@ class SynthVoice : public SynthesiserVoice {
         }
         void stopNote(float velocity, bool allowTailOff) override {
             env1.trigger = 0;
-            allowTailOff = true;
+            //allowTailOff = true;
             if (velocity == 0) {
                 clearCurrentNote();
             }
@@ -120,7 +121,6 @@ class SynthVoice : public SynthesiserVoice {
                 ++startSample;
             }
         }
-        
     private:
         double level;
         double frequency;

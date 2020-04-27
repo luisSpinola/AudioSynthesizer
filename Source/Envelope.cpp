@@ -23,6 +23,9 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&releaseSlider);
 
+
+    addAndMakeVisible(processor.keyboardComponent);
+
     attackVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "attack", attackSlider);
     releaseVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "release", releaseSlider);
 }
@@ -47,7 +50,7 @@ void Envelope::resized() {
     juce::Rectangle<int> area = getLocalBounds().reduced(50);
     int sliderWidth = 25;
     int sliderHeight = 175;
-
+    processor.keyboardComponent.setBounds(8, 200, getWidth() - 16, 64);
     attackSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
     releaseSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
 }

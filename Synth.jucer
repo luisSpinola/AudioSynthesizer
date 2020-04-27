@@ -2,7 +2,8 @@
 
 <JUCERPROJECT id="ZI1GDC" name="Synth" projectType="audioplug" jucerVersion="5.4.7"
               pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginEditorRequiresKeys,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              splashScreenColour="Light" pluginVST3Category="Instrument">
+              splashScreenColour="Dark" pluginVST3Category="Instrument,Synth"
+              pluginAUMainType="'aumi'">
   <MAINGROUP id="Y4dDW0" name="Synth">
     <GROUP id="{74AAFCC3-E1B8-DD18-0636-0FB5331F0908}" name="Source">
       <GROUP id="{2175ED8A-AF74-9691-6FCF-9A1B3A842A36}" name="Maximilian">
@@ -28,6 +29,8 @@
         <FILE id="U9mRaC" name="stb_vorbis.c" compile="1" resource="0" file="../Libraries/Maximilian/stb_vorbis.c"/>
         <FILE id="WpytVB" name="stb_vorbis.h" compile="0" resource="0" file="../Libraries/Maximilian/stb_vorbis.h"/>
       </GROUP>
+      <FILE id="ZPPhdR" name="MidiHandler.cpp" compile="1" resource="0" file="Source/MidiHandler.cpp"/>
+      <FILE id="Ioj3DM" name="MidiHandler.h" compile="0" resource="0" file="Source/MidiHandler.h"/>
       <FILE id="YTmbSj" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="J8F3TJ" name="PluginProcessor.h" compile="0" resource="0"
@@ -44,7 +47,6 @@
       <FILE id="MxclWg" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
       <FILE id="pjVtpp" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
       <FILE id="QknDtn" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
-      <FILE id="Hv84sO" name="Sprit.png" compile="0" resource="1" file="Source/Sprit.png"/>
       <FILE id="GwHgT4" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
     </GROUP>
   </MAINGROUP>

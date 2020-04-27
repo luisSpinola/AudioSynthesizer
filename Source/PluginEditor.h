@@ -16,6 +16,8 @@
 #include "Oscillator2.h"
 #include "Envelope.h"
 #include "Filter.h"
+#include "SynthVoice.h"
+#include "MidiHandler.h"
 
 //==============================================================================
 /**
@@ -30,8 +32,6 @@ class SynthAudioProcessorEditor  : public AudioProcessorEditor {
         void paint (Graphics&) override;
         void resized() override;
 
-        
-
     private:
         // This reference is provided as a quick way for your editor to
         // access the processor object that created it.
@@ -41,6 +41,7 @@ class SynthAudioProcessorEditor  : public AudioProcessorEditor {
         Oscillator2 osc2Gui;
         Envelope envGui;
         Filter filterGui;
+        MidiHandler midiHandler;
 
         //ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackTree;
         //ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseTree;

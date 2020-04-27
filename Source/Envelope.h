@@ -16,9 +16,6 @@ class Envelope : public Component {
 		ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackVal;
 		ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseVal;
 
-		
-
 		SynthAudioProcessor& processor;
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Envelope)
-
 };
