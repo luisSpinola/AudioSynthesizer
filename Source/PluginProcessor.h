@@ -13,6 +13,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "SynthVoice.h"
+#include "VisualHandler.h"
 
 //==============================================================================
 /**
@@ -64,6 +65,7 @@ public:
     MidiKeyboardState keyboardState;
     MidiKeyboardComponent keyboardComponent{ keyboardState, MidiKeyboardComponent::horizontalKeyboard };
     MidiMessageCollector midiCollector;
+    VisualHandler visualHandler;
 private:
     Synthesiser mySynth;
     SynthVoice* myVoice;

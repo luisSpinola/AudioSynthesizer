@@ -15,12 +15,13 @@
 SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), oscGui(p), osc2Gui(p), envGui(p), filterGui(p), midiHandler(p) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (600, 665);
+    setSize (600, 765);
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&osc2Gui);
     addAndMakeVisible(&filterGui);
     addAndMakeVisible(&envGui);
     addAndMakeVisible(&midiHandler);
+    addAndMakeVisible(processor.visualHandler);
     //ATTACK
     /*attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     attackSlider.setRange(0.1f, 5000.0f);
@@ -67,7 +68,9 @@ void SynthAudioProcessorEditor::resized() {
 
     filterGui.setBounds(0,200,600,200);
     envGui.setBounds(0,400,600,200);
-    midiHandler.setBounds(0,600,600,200);
+    midiHandler.setBounds(0,600,600,100);
+
+    processor.visualHandler.setBounds(0, 665, 600, 100);
     //cenas.setBounds(0, 550, 800, 520);
     //filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     //envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));

@@ -29,6 +29,9 @@
         <FILE id="U9mRaC" name="stb_vorbis.c" compile="1" resource="0" file="../Libraries/Maximilian/stb_vorbis.c"/>
         <FILE id="WpytVB" name="stb_vorbis.h" compile="0" resource="0" file="../Libraries/Maximilian/stb_vorbis.h"/>
       </GROUP>
+      <FILE id="rzaxyo" name="VisualHandler.h" compile="0" resource="0" file="Source/VisualHandler.h"/>
+      <FILE id="KL9xin" name="VisualHandler.cpp" compile="1" resource="0"
+            file="Source/VisualHandler.cpp"/>
       <FILE id="ZPPhdR" name="MidiHandler.cpp" compile="1" resource="0" file="Source/MidiHandler.cpp"/>
       <FILE id="Ioj3DM" name="MidiHandler.h" compile="0" resource="0" file="Source/MidiHandler.h"/>
       <FILE id="YTmbSj" name="PluginProcessor.cpp" compile="1" resource="0"

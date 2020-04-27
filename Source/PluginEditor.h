@@ -42,6 +42,7 @@ class SynthAudioProcessorEditor  : public AudioProcessorEditor {
         Envelope envGui;
         Filter filterGui;
         MidiHandler midiHandler;
+        
 
         //ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> attackTree;
         //ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> releaseTree;

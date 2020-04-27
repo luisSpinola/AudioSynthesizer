@@ -61,6 +61,8 @@ SynthAudioProcessor::SynthAudioProcessor()
 
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
+
+    
 }
 
 SynthAudioProcessor::~SynthAudioProcessor()
@@ -154,6 +156,9 @@ void SynthAudioProcessor::updateFilter()
 }
 //==============================================================================
 void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
+
+    visualHandler.clear();
+
     // Use this method as the place to do any pre-playback initialisation that you need
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
@@ -213,6 +218,7 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     //MidiBuffer incomingMidi;
     midiCollector.removeNextBlockOfMessages(midiMessages,buffer.getNumSamples());
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
+    
 
     for (int i = 0; i < mySynth.getNumVoices(); i++) {
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))) {
@@ -236,10 +242,18 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
         }
     }
 
+
+    
+
+
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     updateFilter();
     dsp::AudioBlock<float> block(buffer);
     stateVariableFilter.process(dsp::ProcessContextReplacing<float> (block));
+
+    visualHandler.pushBuffer(buffer);
+
+    
 }
 
 //==============================================================================
