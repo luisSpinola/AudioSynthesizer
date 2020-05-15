@@ -1,10 +1,10 @@
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Oscillator2.h"
+#include "Oscillator3.h"
 
-Oscillator2::Oscillator2(SynthAudioProcessor& p) : processor(p) {
+Oscillator3::Oscillator3(SynthAudioProcessor& p) : processor(p) {
     setSize(200, 140);
 
-    //Wave Selection
+    //Wave selection
     oscMenu.addItem("Square", 1);
     oscMenu.addItem("Saw", 2);
     oscMenu.addItem("Sine", 3);
@@ -12,7 +12,7 @@ Oscillator2::Oscillator2(SynthAudioProcessor& p) : processor(p) {
     oscMenu.addItem("Noise", 5);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
-    waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype2", oscMenu);
+    waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype3", oscMenu);
 
     //Frequency
     oscFrequency.addItem("x2", 1);
@@ -23,7 +23,7 @@ Oscillator2::Oscillator2(SynthAudioProcessor& p) : processor(p) {
     oscFrequency.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscFrequency);
 
-    //Blend Value
+    //Blend slider
     blendSlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
     blendSlider.setColour(Slider::trackColourId, Colours::black);
     blendSlider.setColour(Slider::thumbColourId, Colours::black);
@@ -32,11 +32,12 @@ Oscillator2::Oscillator2(SynthAudioProcessor& p) : processor(p) {
     blendSlider.setTextBoxStyle(Slider::TextBoxRight, false, 30, 20);
     blendSlider.setColour(Slider::textBoxOutlineColourId, Colours::grey);
     addAndMakeVisible(&blendSlider);
-    blendVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "blend", blendSlider);
+    blendVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "blend3", blendSlider);
 }
-Oscillator2::~Oscillator2() {}
 
-void Oscillator2::paint(Graphics& g) {
+Oscillator3::~Oscillator3() {}
+
+void Oscillator3::paint(Graphics& g) {
     //Background
     juce::Rectangle <float> area(25, 25, 150, 150);
     g.setColour(Colours::grey);
@@ -46,14 +47,14 @@ void Oscillator2::paint(Graphics& g) {
     //Text
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
     g.setColour(Colours::white);
-    g.drawText("Oscillator 2", titleArea, Justification::centredTop);
+    g.drawText("Oscillator 3", titleArea, Justification::centredTop);
     g.drawText("Wave", 40, 28, 100, 20, Justification::centredLeft);
     g.drawText("Frequency", 40, 63, 100, 20, Justification::centredLeft);
     g.drawText("Blend", 40, 98, 100, 20, Justification::centredLeft);
 }
 
-void Oscillator2::resized() {
-    oscMenu.setBounds(35,45,130,20);
+void Oscillator3::resized() {
+    oscMenu.setBounds(35, 45, 130, 20);
     oscFrequency.setBounds(35, 80, 130, 20);
     blendSlider.setBounds(30, 110, 140, 20);
 }

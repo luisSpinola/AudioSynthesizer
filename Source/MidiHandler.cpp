@@ -15,6 +15,8 @@
 MidiHandler::MidiHandler(SynthAudioProcessor& p) : processor(p) {
     setSize(200, 65);
     addAndMakeVisible(processor.keyboardComponent);
+    processor.keyboardComponent.setAvailableRange(24, 95);
+    processor.keyboardComponent.setKeyPressBaseOctave(4);
 }
 
 MidiHandler::~MidiHandler() {

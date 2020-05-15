@@ -11,7 +11,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-
 //==============================================================================
 SynthAudioProcessor::SynthAudioProcessor() 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -30,30 +29,37 @@ SynthAudioProcessor::SynthAudioProcessor()
     //ENVELOPE
     NormalisableRange<float> attackParam(0.1f, 5000.0f);
     NormalisableRange<float> releaseParam(0.1f, 5000.0f);
-
-    //OSCILLATORS
-    NormalisableRange<float> waveTypeParam(0, 2);
-    NormalisableRange<float> waveTypeParam2(0, 2);
-
-    NormalisableRange<float> filterVal(20.0f, 3000.0f);
-    NormalisableRange<float> resVal(1, 5);
-    NormalisableRange<float> filterTypeVal(0, 2);
-
-    NormalisableRange<float> blendVal(0.0f, 1.f);
-
-
     tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 0.1f, nullptr, nullptr);
 
-    tree.createAndAddParameter("wavetype", "WaveType", "wavetype", waveTypeParam, 0,nullptr,nullptr);
-    tree.createAndAddParameter("wavetype2", "WaveType2", "wavetype2", waveTypeParam2, 0,nullptr,nullptr);
-
+    //OSCILLATORS
+    NormalisableRange<float> waveTypeParam(0, 4);
+    NormalisableRange<float> waveTypeParam2(0, 4);
+    NormalisableRange<float> waveTypeParam3(0, 4);
+    NormalisableRange<float> blendVal(0.0f, 1.0f, 0.1f);
+    NormalisableRange<float> blendVal3(0.0f, 1.f, 0.1f);
+    tree.createAndAddParameter("wavetype", "WaveType", "wavetype", waveTypeParam, 2, nullptr, nullptr);
+    tree.createAndAddParameter("wavetype2", "WaveType2", "wavetype2", waveTypeParam2, 2, nullptr, nullptr);
+    tree.createAndAddParameter("wavetype3", "WaveType3", "wavetype3", waveTypeParam3, 2, nullptr, nullptr);
     tree.createAndAddParameter("blend", "Osc2Blend", "blend", blendVal, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("blend3", "Osc3Blend", "blend3", blendVal3, 0.0f, nullptr, nullptr);
 
+    //FILTER
+    NormalisableRange<float> filterVal(20.0f, 3000.0f);
+    NormalisableRange<float> resVal(1, 5);
+    NormalisableRange<float> filterTypeVal(0, 2);
     tree.createAndAddParameter("filterType", "FilterType", "filterType", filterTypeVal, 0, nullptr, nullptr);
-    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "filterCutoff",filterVal,400.0f,nullptr,nullptr);
-    tree.createAndAddParameter("filterRes", "FilterRes", "filterRes",resVal,1,nullptr,nullptr);
+    tree.createAndAddParameter("filterCutoff", "FilterCutoff", "filterCutoff", filterVal, 400.0f, nullptr, nullptr);
+    tree.createAndAddParameter("filterRes", "FilterRes", "filterRes", resVal, 1, nullptr, nullptr);
 
+    //MAIN
+    NormalisableRange<float> gain(0.0f, 1.0f);
+    NormalisableRange<float> pbupVal(1.0f, 12.0f);
+    NormalisableRange<float> pbdownVal(1.0f, 12.0f);
+    tree.createAndAddParameter("mastergain", "MasterGain", "mastergain", gain, 0.1f, nullptr, nullptr);
+    tree.createAndAddParameter("pbup", "PBup", "pbup", pbupVal, 2.0f, nullptr, nullptr);
+    tree.createAndAddParameter("pbdown", "PBdown", "pbdown", pbdownVal, 2.0f, nullptr, nullptr);
+    
     mySynth.clearVoices();
     for (int i = 0; i < 5; i++) {
         mySynth.addVoice(new SynthVoice());
@@ -61,22 +67,16 @@ SynthAudioProcessor::SynthAudioProcessor()
 
     mySynth.clearSounds();
     mySynth.addSound(new SynthSound());
-
-    
 }
 
-SynthAudioProcessor::~SynthAudioProcessor()
-{
-}
+SynthAudioProcessor::~SynthAudioProcessor() {}
 
 //==============================================================================
-const String SynthAudioProcessor::getName() const
-{
+const String SynthAudioProcessor::getName() const {
     return JucePlugin_Name;
 }
 
-bool SynthAudioProcessor::acceptsMidi() const
-{
+bool SynthAudioProcessor::acceptsMidi() const {
    #if JucePlugin_WantsMidiInput
     return true;
    #else
@@ -84,8 +84,7 @@ bool SynthAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool SynthAudioProcessor::producesMidi() const
-{
+bool SynthAudioProcessor::producesMidi() const {
    #if JucePlugin_ProducesMidiOutput
     return true;
    #else
@@ -93,8 +92,7 @@ bool SynthAudioProcessor::producesMidi() const
    #endif
 }
 
-bool SynthAudioProcessor::isMidiEffect() const
-{
+bool SynthAudioProcessor::isMidiEffect() const {
    #if JucePlugin_IsMidiEffect
     return true;
    #else
@@ -102,54 +100,43 @@ bool SynthAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double SynthAudioProcessor::getTailLengthSeconds() const
-{
+double SynthAudioProcessor::getTailLengthSeconds() const {
     return 0.0;
 }
 
-int SynthAudioProcessor::getNumPrograms()
-{
+int SynthAudioProcessor::getNumPrograms() {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int SynthAudioProcessor::getCurrentProgram()
-{
+int SynthAudioProcessor::getCurrentProgram() {
     return 0;
 }
 
-void SynthAudioProcessor::setCurrentProgram (int index)
-{
+void SynthAudioProcessor::setCurrentProgram (int index) {
 }
 
-const String SynthAudioProcessor::getProgramName (int index)
-{
+const String SynthAudioProcessor::getProgramName (int index) {
     return {};
 }
 
-void SynthAudioProcessor::changeProgramName (int index, const String& newName)
-{
-}
-void SynthAudioProcessor::updateFilter()
-{
+void SynthAudioProcessor::changeProgramName (int index, const String& newName) {}
+void SynthAudioProcessor::updateFilter() {
     int menuChoice = *tree.getRawParameterValue("filterType");
     int freq = *tree.getRawParameterValue("filterCutoff");
     int res = *tree.getRawParameterValue("filterRes");
 
-    if (menuChoice == 0)
-    {
+    if (menuChoice == 0) {
         stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
         stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
     }
 
-    if (menuChoice == 1)
-    {
+    if (menuChoice == 1) {
         stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
         stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
     }
 
-    if (menuChoice == 2)
-    {
+    if (menuChoice == 2) {
         stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
         stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
     }
@@ -170,26 +157,17 @@ void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumOutputChannels();
 
-    
-
-
     stateVariableFilter.reset();
     stateVariableFilter.prepare(spec);
     updateFilter();
-
 }
 
 
 
-void SynthAudioProcessor::releaseResources()
-{
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
-}
+void SynthAudioProcessor::releaseResources() {}
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool SynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
-{
+bool SynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const {
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
     return true;
@@ -227,17 +205,27 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 
                 float* newWaveFloatPtr = (float*)tree.getRawParameterValue("wavetype");
                 float* newWave2FloatPtr = (float*)tree.getRawParameterValue("wavetype2");
+                float* newWave3FloatPtr = (float*)tree.getRawParameterValue("wavetype3");
 
                 float* newBlend1FloatPtr = (float*)tree.getRawParameterValue("blend");
+                float* newBlend3FloatPtr = (float*)tree.getRawParameterValue("blend3");
 
                 float* newFilterTypeFloatPtr = (float*)tree.getRawParameterValue("filterType");
                 float* newFilterFloatPtr = (float*)tree.getRawParameterValue("filterCutoff");
                 float* newResFloatPtr = (float*)tree.getRawParameterValue("filterRes");
 
-                myVoice->getBlendParam(newBlend1FloatPtr);
+                //MASTER
+                float* mastGainPtr = (float*)tree.getRawParameterValue("mastergain");
+                float* pbupPtr = (float*)tree.getRawParameterValue("pbup");
+                float* pbdownPtr = (float*)tree.getRawParameterValue("pbdown");
+
+                myVoice->setMaster(mastGainPtr, pbupPtr, pbdownPtr);
+
+                myVoice->setBlendParam(newBlend1FloatPtr, newBlend3FloatPtr);
                 myVoice->getEnvelopeParam(newAttackFloatPtr, newReleaseFloatPtr);
                 myVoice->getOscType(newWaveFloatPtr);
                 myVoice->getOsc2Type(newWave2FloatPtr);
+                myVoice->setOsc3Type(newWave3FloatPtr);
                 myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
         }
     }
@@ -245,7 +233,7 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
 
     
 
-
+    buffer.clear();
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     updateFilter();
     dsp::AudioBlock<float> block(buffer);

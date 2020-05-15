@@ -2,7 +2,7 @@
 #include "Filter.h"
 
 Filter::Filter(SynthAudioProcessor& p) : processor(p){
-	setSize(600, 200);
+	setSize(320, 140);
 	filterMenu.addItem("Low Pass", 1);
 	filterMenu.addItem("High Pass", 2);
 	filterMenu.addItem("Band Pass", 3);
@@ -38,25 +38,23 @@ Filter::~Filter() {
 
 }
 void Filter::paint(Graphics& g) {
-	juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
-	g.fillAll(Colours::black);
-	g.setColour(Colours::white);
-	g.drawText("Filter", titleArea, Justification::centredTop);
-
-
-	//Image splash = ImageFileFormat::loadFrom(BinaryData::Sprit_png, (size_t)BinaryData::Sprit_pngSize);
-	
-	juce::Rectangle<float> area(25, 25, 550, 150);
-
+	//Image splash = ImageFileFormat::loadFrom(BinaryData::metal_png, (size_t)BinaryData::metal_pngSize);
+	//g.drawImageAt(splash, 0, 0);
+	juce::Rectangle<float> area(25, 25, 335, 150);
 	g.setColour(Colours::grey);
 	g.drawRect(area, 5.0f);
 	g.fillRect(area);
-	//g.drawImageAt(splash, 0, 0);
+	
+	//Text
+	juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
+	g.setColour(Colours::white);
+	g.drawText("Filter", titleArea, Justification::centredTop);
+	g.drawText("Cutoff", 40, 60, 100, 20, Justification::centredLeft);
+	g.drawText("Resonance", 40, 90, 100, 20, Justification::centredLeft);
 }
 void Filter::resized() {
-
 	juce::Rectangle<int> area = getLocalBounds().reduced(40);
 	filterMenu.setBounds(area.removeFromTop(20));
-	filterCutoff.setBounds(45, 60, 500, 70);
-	filterRes.setBounds(45, 100, 500, 70);
+	filterCutoff.setBounds(45, 70, 260, 30);
+	filterRes.setBounds(45, 100, 260, 30);
 }

@@ -2,10 +2,10 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
-class Oscillator2 : public Component {
+class Oscillator4 : public Component {
 public:
-    Oscillator2(SynthAudioProcessor&);
-    ~Oscillator2();
+    Oscillator4(SynthAudioProcessor&);
+    ~Oscillator4();
     void paint(Graphics&) override;
     void resized() override;
 
@@ -17,5 +17,5 @@ private:
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> blendVal;
     SynthAudioProcessor& processor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Oscillator2)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Oscillator4)
 };

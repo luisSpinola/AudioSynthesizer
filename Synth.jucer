@@ -3,7 +3,8 @@
 <JUCERPROJECT id="ZI1GDC" name="Synth" projectType="audioplug" jucerVersion="5.4.7"
               pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginEditorRequiresKeys,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               splashScreenColour="Dark" pluginVST3Category="Instrument,Synth"
-              pluginAUMainType="'aumi'">
+              pluginAUMainType="'aumi'" companyName="SomeLS" pluginName="6xOsc"
+              pluginDesc="6xOsx">
   <MAINGROUP id="Y4dDW0" name="Synth">
     <GROUP id="{74AAFCC3-E1B8-DD18-0636-0FB5331F0908}" name="Source">
       <GROUP id="{2175ED8A-AF74-9691-6FCF-9A1B3A842A36}" name="Maximilian">
@@ -29,6 +30,10 @@
         <FILE id="U9mRaC" name="stb_vorbis.c" compile="1" resource="0" file="../Libraries/Maximilian/stb_vorbis.c"/>
         <FILE id="WpytVB" name="stb_vorbis.h" compile="0" resource="0" file="../Libraries/Maximilian/stb_vorbis.h"/>
       </GROUP>
+      <FILE id="MOilLw" name="GeneralHandler.cpp" compile="1" resource="0"
+            file="Source/GeneralHandler.cpp"/>
+      <FILE id="hliw3C" name="GeneralHandler.h" compile="0" resource="0"
+            file="Source/GeneralHandler.h"/>
       <FILE id="rzaxyo" name="VisualHandler.h" compile="0" resource="0" file="Source/VisualHandler.h"/>
       <FILE id="KL9xin" name="VisualHandler.cpp" compile="1" resource="0"
             file="Source/VisualHandler.cpp"/>
@@ -47,6 +52,14 @@
       <FILE id="sWKwiF" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
       <FILE id="AoWRIj" name="Oscillator2.h" compile="0" resource="0" file="Source/Oscillator2.h"/>
       <FILE id="ZJjhXS" name="Oscillator2.cpp" compile="1" resource="0" file="Source/Oscillator2.cpp"/>
+      <FILE id="kjZzUN" name="Oscillator3.cpp" compile="1" resource="0" file="Source/Oscillator3.cpp"/>
+      <FILE id="inwFB5" name="Oscillator3.h" compile="0" resource="0" file="Source/Oscillator3.h"/>
+      <FILE id="s2leqh" name="Oscillator4.cpp" compile="1" resource="0" file="Source/Oscillator4.cpp"/>
+      <FILE id="oz5s5k" name="Oscillator4.h" compile="0" resource="0" file="Source/Oscillator4.h"/>
+      <FILE id="sDj5ju" name="Oscillator5.cpp" compile="1" resource="0" file="Source/Oscillator5.cpp"/>
+      <FILE id="bmKTVE" name="Oscillator5.h" compile="0" resource="0" file="Source/Oscillator5.h"/>
+      <FILE id="HB86AK" name="Oscillator6.cpp" compile="1" resource="0" file="Source/Oscillator6.cpp"/>
+      <FILE id="E81diK" name="Oscillator6.h" compile="0" resource="0" file="Source/Oscillator6.h"/>
       <FILE id="MxclWg" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
       <FILE id="pjVtpp" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
       <FILE id="QknDtn" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>

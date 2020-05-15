@@ -12,16 +12,24 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), oscGui(p), osc2Gui(p), envGui(p), filterGui(p), midiHandler(p) {
+SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), osc1(p), osc2(p), envGui(p), filterGui(p), midiHandler(p), generalHandler(p), osc3(p), osc4(p), osc5(p), osc6(p) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (600, 765);
-    addAndMakeVisible(&oscGui);
-    addAndMakeVisible(&osc2Gui);
+    setSize (680, 700);
+
+    addAndMakeVisible(&osc1);
+    addAndMakeVisible(&osc2);
+    addAndMakeVisible(&osc3);
+    addAndMakeVisible(&osc4);
+    addAndMakeVisible(&osc5);
+    addAndMakeVisible(&osc5);
+    addAndMakeVisible(&osc6);
     addAndMakeVisible(&filterGui);
     addAndMakeVisible(&envGui);
-    addAndMakeVisible(&midiHandler);
     addAndMakeVisible(processor.visualHandler);
+    addAndMakeVisible(&generalHandler);
+    addAndMakeVisible(&midiHandler);
+
     //ATTACK
     /*attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     attackSlider.setRange(0.1f, 5000.0f);
@@ -46,34 +54,38 @@ SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : 
     releaseTree = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "release", releaseSlider);*/
 }
 
-SynthAudioProcessorEditor::~SynthAudioProcessorEditor()
-{
+SynthAudioProcessorEditor::~SynthAudioProcessorEditor() {
 }
 
 //==============================================================================
 void SynthAudioProcessorEditor::paint (Graphics& g) {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (Colours::black);
-
 }
 
 void SynthAudioProcessorEditor::resized() {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-    juce::Rectangle<int> area = getLocalBounds();
-    const int componentWidth = 200;
-    const int componentHeight = 200;
-    oscGui.setBounds(0,0,200,200);
-    osc2Gui.setBounds(200,0,200,200);
+    
 
-    filterGui.setBounds(0,200,600,200);
-    envGui.setBounds(0,400,600,200);
-    midiHandler.setBounds(0,600,600,100);
+    //OSCs
+    osc1.setBounds(0,0,200,140);
+    osc2.setBounds(160,0,200,140);
+    osc3.setBounds(320, 0, 200, 140);
+    osc4.setBounds(480, 0, 200, 140);
+    osc5.setBounds(0, 140, 200, 140);
+    osc6.setBounds(160, 140, 200, 140);
 
-    processor.visualHandler.setBounds(0, 665, 600, 100);
-    //cenas.setBounds(0, 550, 800, 520);
-    //filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    //envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    //FILTER
+    filterGui.setBounds(320,140,335,140);
+
+    //ENVELOPE + MAIN
+    envGui.setBounds(0,300,300,200);
+    generalHandler.setBounds(280, 300, 300, 200);
+    
+    //VISUALISER
+    processor.visualHandler.setBounds(25, 500, 630, 100);
+
+    //KEYBOARD
+    midiHandler.setBounds(0, 625, 680, 100);
+    
 }
 
 

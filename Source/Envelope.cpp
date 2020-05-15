@@ -24,8 +24,6 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
     addAndMakeVisible(&releaseSlider);
 
 
-    addAndMakeVisible(processor.keyboardComponent);
-
     attackVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "attack", attackSlider);
     releaseVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "release", releaseSlider);
 }
@@ -36,21 +34,22 @@ void Envelope::paint(Graphics& g) {
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
     g.fillAll(Colours::black);
     g.setColour(Colours::white);
-    g.drawText("Envelope", titleArea, Justification::centredTop);
-    g.drawText("A", 53, 150, 20, 20, Justification::centredTop);
-    g.drawText("R", 77, 150, 20, 20, Justification::centredTop);
+    
 
     juce::Rectangle<float> area(25, 25, 550, 150);
     g.setColour(Colours::grey);
     g.drawRect(area, 5.0f);
     g.fillRect(area);
     //g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.setColour(Colours::white);
+    g.drawText("Envelope", titleArea, Justification::centredTop);
+    g.drawText("A", 53, 150, 20, 20, Justification::centredTop);
+    g.drawText("R", 77, 150, 20, 20, Justification::centredTop);
 }
 void Envelope::resized() {
     juce::Rectangle<int> area = getLocalBounds().reduced(50);
     int sliderWidth = 25;
     int sliderHeight = 175;
-    processor.keyboardComponent.setBounds(8, 200, getWidth() - 16, 64);
     attackSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
     releaseSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
 }
