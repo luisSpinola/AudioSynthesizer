@@ -12,10 +12,10 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), osc1(p), osc2(p), envGui(p), filterGui(p), midiHandler(p), generalHandler(p), osc3(p), osc4(p), osc5(p), osc6(p) {
+SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), osc1(p), osc2(p), envGui(p), filterGui(p), midiHandler(p), generalHandler(p), osc3(p), osc4(p), osc5(p), osc6(p), images(p) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (680, 700);
+    setSize (680, 630);
 
     addAndMakeVisible(&osc1);
     addAndMakeVisible(&osc2);
@@ -26,10 +26,12 @@ SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : 
     addAndMakeVisible(&osc6);
     addAndMakeVisible(&filterGui);
     addAndMakeVisible(&envGui);
+    
     addAndMakeVisible(processor.visualHandler);
     addAndMakeVisible(&generalHandler);
+    
     addAndMakeVisible(&midiHandler);
-
+    addAndMakeVisible(&images);
     //ATTACK
     /*attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     attackSlider.setRange(0.1f, 5000.0f);
@@ -60,10 +62,12 @@ SynthAudioProcessorEditor::~SynthAudioProcessorEditor() {
 //==============================================================================
 void SynthAudioProcessorEditor::paint (Graphics& g) {
     g.fillAll (Colours::black);
+    
 }
 
 void SynthAudioProcessorEditor::resized() {
-    
+    //KEYBOARD
+    midiHandler.setBounds(0, 560, 680, 100);
 
     //OSCs
     osc1.setBounds(0,0,200,140);
@@ -77,15 +81,11 @@ void SynthAudioProcessorEditor::resized() {
     filterGui.setBounds(320,140,335,140);
 
     //ENVELOPE + MAIN
-    envGui.setBounds(0,300,300,200);
-    generalHandler.setBounds(280, 300, 300, 200);
-    
+    envGui.setBounds(0,280,335,140);
+    generalHandler.setBounds(320, 280, 335, 140);
     //VISUALISER
-    processor.visualHandler.setBounds(25, 500, 630, 100);
-
-    //KEYBOARD
-    midiHandler.setBounds(0, 625, 680, 100);
-    
+    processor.visualHandler.setBounds(25, 440, 630, 100);
+    images.setBounds(200, 440, 630, 100);
 }
 
 

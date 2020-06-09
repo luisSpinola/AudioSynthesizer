@@ -12,16 +12,16 @@ Oscillator4::Oscillator4(SynthAudioProcessor& p) : processor(p) {
     oscMenu.addItem("Noise", 5);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
-    //waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype3", oscMenu);
+   waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype4", oscMenu);
 
     //Frequency
-    oscFrequency.addItem("x2", 1);
-    oscFrequency.addItem("x4", 2);
-    oscFrequency.addItem("Normal", 3);
-    oscFrequency.addItem("/2", 4);
-    oscFrequency.addItem("/4", 5);
+   oscFrequency.addItem("Normal", 1);
+   oscFrequency.addItem("/2", 2);
+   oscFrequency.addItem("/4", 3);
+   oscFrequency.addItem("/8", 4);
     oscFrequency.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscFrequency);
+    frequencySelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "frequency4", oscFrequency);
 
     //Blend slider
     blendSlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
@@ -32,7 +32,7 @@ Oscillator4::Oscillator4(SynthAudioProcessor& p) : processor(p) {
     blendSlider.setTextBoxStyle(Slider::TextBoxRight, false, 30, 20);
     blendSlider.setColour(Slider::textBoxOutlineColourId, Colours::grey);
     addAndMakeVisible(&blendSlider);
-    //blendVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "blend3", blendSlider);
+    blendVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "blend4", blendSlider);
 }
 
 Oscillator4::~Oscillator4() {}

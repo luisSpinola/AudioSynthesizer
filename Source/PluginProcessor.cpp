@@ -29,20 +29,50 @@ SynthAudioProcessor::SynthAudioProcessor()
     //ENVELOPE
     NormalisableRange<float> attackParam(0.1f, 5000.0f);
     NormalisableRange<float> releaseParam(0.1f, 5000.0f);
+    NormalisableRange<float> sustainParam(0.0f, 1.0f);
+    NormalisableRange<float> decayParam(1.0f, 2000.0f, 0.1f);
     tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
     tree.createAndAddParameter("release", "Release", "Release", releaseParam, 0.1f, nullptr, nullptr);
+    tree.createAndAddParameter("sustain", "Sustain", "sustain", sustainParam, 0.8f, nullptr, nullptr);
+    tree.createAndAddParameter("decay", "Decay", "decay", decayParam, 1.0f, nullptr, nullptr);
 
     //OSCILLATORS
     NormalisableRange<float> waveTypeParam(0, 4);
     NormalisableRange<float> waveTypeParam2(0, 4);
     NormalisableRange<float> waveTypeParam3(0, 4);
+    NormalisableRange<float> waveTypeParam4(0, 4);
+    NormalisableRange<float> waveTypeParam5(0, 4);
+    NormalisableRange<float> waveTypeParam6(0, 4);
     NormalisableRange<float> blendVal(0.0f, 1.0f, 0.1f);
     NormalisableRange<float> blendVal3(0.0f, 1.f, 0.1f);
+    NormalisableRange<float> blendVal4(0.0f, 1.f, 0.1f);
+    NormalisableRange<float> blendVal5(0.0f, 1.f, 0.1f);
+    NormalisableRange<float> blendVal6(0.0f, 1.f, 0.1f);
+    NormalisableRange<float> frequency1Val(0, 3);
+    NormalisableRange<float> frequency2Val(0, 3);
+    NormalisableRange<float> frequency3Val(0, 3);
+    NormalisableRange<float> frequency4Val(0, 3);
+    NormalisableRange<float> frequency5Val(0, 3);
+    NormalisableRange<float> frequency6Val(0, 3);
     tree.createAndAddParameter("wavetype", "WaveType", "wavetype", waveTypeParam, 2, nullptr, nullptr);
     tree.createAndAddParameter("wavetype2", "WaveType2", "wavetype2", waveTypeParam2, 2, nullptr, nullptr);
     tree.createAndAddParameter("wavetype3", "WaveType3", "wavetype3", waveTypeParam3, 2, nullptr, nullptr);
+    tree.createAndAddParameter("wavetype4", "WaveType4", "wavetype4", waveTypeParam4, 2, nullptr, nullptr);
+    tree.createAndAddParameter("wavetype5", "WaveType5", "wavetype5", waveTypeParam5, 2, nullptr, nullptr);
+    tree.createAndAddParameter("wavetype6", "WaveType6", "wavetype6", waveTypeParam6, 2, nullptr, nullptr);
+
     tree.createAndAddParameter("blend", "Osc2Blend", "blend", blendVal, 0.0f, nullptr, nullptr);
     tree.createAndAddParameter("blend3", "Osc3Blend", "blend3", blendVal3, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("blend4", "Osc4Blend", "blend4", blendVal4, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("blend5", "Osc5Blend", "blend5", blendVal5, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("blend6", "Osc6Blend", "blend6", blendVal6, 0.0f, nullptr, nullptr);
+
+    tree.createAndAddParameter("frequency1", "Frequency1", "frequency1", frequency1Val, 0, nullptr, nullptr);
+    tree.createAndAddParameter("frequency2", "Frequency2", "frequency2", frequency2Val, 0, nullptr, nullptr);
+    tree.createAndAddParameter("frequency3", "Frequency3", "frequency3", frequency3Val, 0, nullptr, nullptr);
+    tree.createAndAddParameter("frequency4", "Frequency4", "frequency4", frequency4Val, 0, nullptr, nullptr);
+    tree.createAndAddParameter("frequency5", "Frequency5", "frequency5", frequency5Val, 0, nullptr, nullptr);
+    tree.createAndAddParameter("frequency6", "Frequency6", "frequency6", frequency6Val, 0, nullptr, nullptr);
 
     //FILTER
     NormalisableRange<float> filterVal(20.0f, 3000.0f);
@@ -130,7 +160,6 @@ void SynthAudioProcessor::updateFilter() {
         stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
         stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
     }
-
     if (menuChoice == 1) {
         stateVariableFilter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
         stateVariableFilter.state->setCutOffFrequency(lastSampleRate, freq, res);
@@ -143,7 +172,7 @@ void SynthAudioProcessor::updateFilter() {
 }
 //==============================================================================
 void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
-
+    updateFilter();
     visualHandler.clear();
 
     // Use this method as the place to do any pre-playback initialisation that you need
@@ -159,7 +188,7 @@ void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 
     stateVariableFilter.reset();
     stateVariableFilter.prepare(spec);
-    updateFilter();
+    
 }
 
 
@@ -193,23 +222,37 @@ bool SynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) {
     ScopedNoDenormals noDenormals;
    
-    //MidiBuffer incomingMidi;
-    midiCollector.removeNextBlockOfMessages(midiMessages,buffer.getNumSamples());
-    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
+    
     
 
     for (int i = 0; i < mySynth.getNumVoices(); i++) {
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))) {
+                //Envelope
                 float* newAttackFloatPtr = (float*)tree.getRawParameterValue("attack");
                 float* newReleaseFloatPtr = (float*)tree.getRawParameterValue("release");
+                float* newSustainFloatPtr = (float*)tree.getRawParameterValue("sustain");
+                float* newDecayFloatPtr = (float*)tree.getRawParameterValue("decay");
 
+                //Oscs
                 float* newWaveFloatPtr = (float*)tree.getRawParameterValue("wavetype");
                 float* newWave2FloatPtr = (float*)tree.getRawParameterValue("wavetype2");
                 float* newWave3FloatPtr = (float*)tree.getRawParameterValue("wavetype3");
-
+                float* newWave4FloatPtr = (float*)tree.getRawParameterValue("wavetype4");
+                float* newWave5FloatPtr = (float*)tree.getRawParameterValue("wavetype5");
+                float* newWave6FloatPtr = (float*)tree.getRawParameterValue("wavetype6");
                 float* newBlend1FloatPtr = (float*)tree.getRawParameterValue("blend");
                 float* newBlend3FloatPtr = (float*)tree.getRawParameterValue("blend3");
+                float* newBlend4FloatPtr = (float*)tree.getRawParameterValue("blend4");
+                float* newBlend5FloatPtr = (float*)tree.getRawParameterValue("blend5");
+                float* newBlend6FloatPtr = (float*)tree.getRawParameterValue("blend6");
+                float* newFrequency1 = (float*)tree.getRawParameterValue("frequency1");
+                float* newFrequency2 = (float*)tree.getRawParameterValue("frequency2");
+                float* newFrequency3 = (float*)tree.getRawParameterValue("frequency3");
+                float* newFrequency4 = (float*)tree.getRawParameterValue("frequency4");
+                float* newFrequency5 = (float*)tree.getRawParameterValue("frequency5");
+                float* newFrequency6 = (float*)tree.getRawParameterValue("frequency6");
 
+                //Filter
                 float* newFilterTypeFloatPtr = (float*)tree.getRawParameterValue("filterType");
                 float* newFilterFloatPtr = (float*)tree.getRawParameterValue("filterCutoff");
                 float* newResFloatPtr = (float*)tree.getRawParameterValue("filterRes");
@@ -220,19 +263,24 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
                 float* pbdownPtr = (float*)tree.getRawParameterValue("pbdown");
 
                 myVoice->setMaster(mastGainPtr, pbupPtr, pbdownPtr);
-
-                myVoice->setBlendParam(newBlend1FloatPtr, newBlend3FloatPtr);
-                myVoice->getEnvelopeParam(newAttackFloatPtr, newReleaseFloatPtr);
+                myVoice->setFrequency1(newFrequency1, newFrequency2, newFrequency3, newFrequency4, newFrequency5, newFrequency6);
+                myVoice->setBlendParam(newBlend1FloatPtr, newBlend3FloatPtr, newBlend4FloatPtr, newBlend5FloatPtr, newBlend6FloatPtr);
+                myVoice->getEnvelopeParam(newAttackFloatPtr, newReleaseFloatPtr, newSustainFloatPtr, newDecayFloatPtr);
                 myVoice->getOscType(newWaveFloatPtr);
                 myVoice->getOsc2Type(newWave2FloatPtr);
                 myVoice->setOsc3Type(newWave3FloatPtr);
+                myVoice->setOsc4Type(newWave4FloatPtr);
+                myVoice->setOsc5Type(newWave5FloatPtr);
+                myVoice->setOsc6Type(newWave6FloatPtr);
                 myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
         }
     }
 
 
     
-
+    //MidiBuffer incomingMidi;
+    midiCollector.removeNextBlockOfMessages(midiMessages, buffer.getNumSamples());
+    keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
     buffer.clear();
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     updateFilter();
@@ -240,7 +288,7 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     stateVariableFilter.process(dsp::ProcessContextReplacing<float> (block));
 
     visualHandler.pushBuffer(buffer);
-
+    
     
 }
 

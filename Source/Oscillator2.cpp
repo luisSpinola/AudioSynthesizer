@@ -15,13 +15,13 @@ Oscillator2::Oscillator2(SynthAudioProcessor& p) : processor(p) {
     waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype2", oscMenu);
 
     //Frequency
-    oscFrequency.addItem("x2", 1);
-    oscFrequency.addItem("x4", 2);
-    oscFrequency.addItem("Normal", 3);
-    oscFrequency.addItem("/2", 4);
-    oscFrequency.addItem("/4", 5);
+    oscFrequency.addItem("Normal", 1);
+    oscFrequency.addItem("/2", 2);
+    oscFrequency.addItem("/4", 3);
+    oscFrequency.addItem("/8", 4);
     oscFrequency.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscFrequency);
+    frequencySelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "frequency2", oscFrequency);
 
     //Blend Value
     blendSlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);

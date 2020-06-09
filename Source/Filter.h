@@ -1,5 +1,4 @@
 #pragma once
-
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
@@ -13,9 +12,7 @@ class Filter : public Component {
 	private:
 		Slider filterCutoff;
 		Slider filterRes;
-
 		ComboBox filterMenu;
-
 		ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeVal;
 		ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> filterVal;
 		ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> resVal;

@@ -35,6 +35,9 @@
       <FILE id="hliw3C" name="GeneralHandler.h" compile="0" resource="0"
             file="Source/GeneralHandler.h"/>
       <FILE id="rzaxyo" name="VisualHandler.h" compile="0" resource="0" file="Source/VisualHandler.h"/>
+      <FILE id="IRvO6h" name="Logo.png" compile="0" resource="1" file="Source/Resources/Logo.png"/>
+      <FILE id="PcTVfv" name="Images.h" compile="0" resource="0" file="Source/Images.h"/>
+      <FILE id="uF1XO7" name="Images.cpp" compile="1" resource="0" file="Source/Images.cpp"/>
       <FILE id="KL9xin" name="VisualHandler.cpp" compile="1" resource="0"
             file="Source/VisualHandler.cpp"/>
       <FILE id="ZPPhdR" name="MidiHandler.cpp" compile="1" resource="0" file="Source/MidiHandler.cpp"/>

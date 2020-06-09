@@ -23,6 +23,7 @@
 #include "SynthVoice.h"
 #include "MidiHandler.h"
 #include "GeneralHandler.h"
+#include "Images.h"
 
 //==============================================================================
 /**
@@ -49,6 +50,7 @@ class SynthAudioProcessorEditor : public AudioProcessorEditor {
         Oscillator5 osc5;
         Oscillator6 osc6;
         Envelope envGui;
+        Images images;
         Filter filterGui;
         MidiHandler midiHandler;
         GeneralHandler generalHandler;

@@ -14,6 +14,7 @@ private:
     ComboBox oscFrequency;
     Slider blendSlider;
     ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> waveSelection;
+    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> frequencySelection;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> blendVal;
     SynthAudioProcessor& processor;
 
