@@ -12,9 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), osc1(p), osc2(p), envGui(p), filterGui(p), midiHandler(p), generalHandler(p), osc3(p), osc4(p), osc5(p), osc6(p), images(p) {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : AudioProcessorEditor (&p), processor (p), osc1(p), osc2(p), envGui(p), filterGui(p), midiHandler(p), generalHandler(p), osc3(p), osc4(p), osc5(p), osc6(p), images(p), filterBox(p) {
     setSize (680, 630);
 
     addAndMakeVisible(&osc1);
@@ -32,28 +30,7 @@ SynthAudioProcessorEditor::SynthAudioProcessorEditor (SynthAudioProcessor& p) : 
     
     addAndMakeVisible(&midiHandler);
     addAndMakeVisible(&images);
-    //ATTACK
-    /*attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    attackSlider.setRange(0.1f, 5000.0f);
-    attackSlider.setValue(0.1f);
-    //attackSlider.setTextBoxStyle(Slider::TextBoxLeft, false, 300, 50);
-    attackSlider.addListener(this);
-    
-
-    //RELEASE
-    releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    releaseSlider.setRange(0.1f, 5000.0f);
-    releaseSlider.setValue(0.1f);
-    releaseSlider.addListener(this);
-
-    //ADD
-    addAndMakeVisible(&attackSlider);
-    addAndMakeVisible(&releaseSlider);
-
-
-
-    attackTree = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "attack", attackSlider);
-    releaseTree = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "release", releaseSlider);*/
+    addAndMakeVisible(&filterBox);
 }
 
 SynthAudioProcessorEditor::~SynthAudioProcessorEditor() {
@@ -78,11 +55,13 @@ void SynthAudioProcessorEditor::resized() {
     osc6.setBounds(160, 140, 200, 140);
 
     //FILTER
+    filterBox.setBounds(320, 140, 335, 60);
     filterGui.setBounds(320,140,335,140);
+    
 
     //ENVELOPE + MAIN
     envGui.setBounds(0,280,335,140);
-    generalHandler.setBounds(320, 280, 335, 140);
+    generalHandler.setBounds(320, 300, 335, 140);
     //VISUALISER
     processor.visualHandler.setBounds(25, 440, 630, 100);
     images.setBounds(200, 440, 630, 100);

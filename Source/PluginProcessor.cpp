@@ -84,11 +84,11 @@ SynthAudioProcessor::SynthAudioProcessor()
 
     //MAIN
     NormalisableRange<float> gain(0.0f, 1.0f);
-    NormalisableRange<float> pbupVal(1.0f, 12.0f);
-    NormalisableRange<float> pbdownVal(1.0f, 12.0f);
+    NormalisableRange<float> pbupVal(-10.0f, 10.0f, 0.1f);
+    NormalisableRange<float> pbdownVal(0.0f, 12.0f);
     tree.createAndAddParameter("mastergain", "MasterGain", "mastergain", gain, 0.1f, nullptr, nullptr);
-    tree.createAndAddParameter("pbup", "PBup", "pbup", pbupVal, 2.0f, nullptr, nullptr);
-    tree.createAndAddParameter("pbdown", "PBdown", "pbdown", pbdownVal, 2.0f, nullptr, nullptr);
+    tree.createAndAddParameter("pbup", "PBup", "pbup", pbupVal, 0.0f, nullptr, nullptr);
+    tree.createAndAddParameter("pbdown", "PBdown", "pbdown", pbdownVal, 0.0f, nullptr, nullptr);
     
     mySynth.clearVoices();
     for (int i = 0; i < 5; i++) {
@@ -188,7 +188,6 @@ void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 
     stateVariableFilter.reset();
     stateVariableFilter.prepare(spec);
-    
 }
 
 
@@ -222,9 +221,6 @@ bool SynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) {
     ScopedNoDenormals noDenormals;
    
-    
-    
-
     for (int i = 0; i < mySynth.getNumVoices(); i++) {
         if ((myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i)))) {
                 //Envelope
@@ -275,12 +271,10 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
                 myVoice->getFilterParams(newFilterTypeFloatPtr, newFilterFloatPtr, newResFloatPtr);
         }
     }
-
-
     
-    //MidiBuffer incomingMidi;
     midiCollector.removeNextBlockOfMessages(midiMessages, buffer.getNumSamples());
     keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
+
     buffer.clear();
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     updateFilter();
@@ -288,13 +282,11 @@ void SynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& 
     stateVariableFilter.process(dsp::ProcessContextReplacing<float> (block));
 
     visualHandler.pushBuffer(buffer);
-    
-    
 }
 
 //==============================================================================
 bool SynthAudioProcessor::hasEditor() const {
-    return true; // (change this to false if you choose to not supply an editor)
+    return true;
 }
 
 AudioProcessorEditor* SynthAudioProcessor::createEditor() {

@@ -20,6 +20,7 @@
 #include "Oscillator6.h"
 #include "Envelope.h"
 #include "Filter.h"
+#include "FilterBox.h"
 #include "SynthVoice.h"
 #include "MidiHandler.h"
 #include "GeneralHandler.h"
@@ -52,6 +53,7 @@ class SynthAudioProcessorEditor : public AudioProcessorEditor {
         Envelope envGui;
         Images images;
         Filter filterGui;
+        FilterBox filterBox;
         MidiHandler midiHandler;
         GeneralHandler generalHandler;
 

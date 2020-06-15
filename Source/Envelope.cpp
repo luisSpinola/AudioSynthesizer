@@ -3,11 +3,11 @@
 
 Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
     setSize(335, 140);
-
     //Attack
     attackSlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    attackSlider.setColour(Slider::trackColourId, Colours::black);
-    attackSlider.setColour(Slider::thumbColourId, Colours::black);
+    attackSlider.setColour(Slider::trackColourId, Colours::floralwhite);
+    attackSlider.setColour(Slider::thumbColourId, Colours::floralwhite);
+    attackSlider.setColour(Slider::rotarySliderFillColourId, Colours::floralwhite);
     attackSlider.setRange(0.1f, 5000.0f);
     attackSlider.setValue(0.1f);
     attackSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -16,8 +16,9 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
 
     //Release
     releaseSlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    releaseSlider.setColour(Slider::trackColourId, Colours::black);
-    releaseSlider.setColour(Slider::thumbColourId, Colours::black);
+    releaseSlider.setColour(Slider::trackColourId, Colours::floralwhite);
+    releaseSlider.setColour(Slider::thumbColourId, Colours::floralwhite);
+    releaseSlider.setColour(Slider::rotarySliderFillColourId, Colours::floralwhite);
     releaseSlider.setRange(0.1f, 5000.0f);
     releaseSlider.setValue(0.1f);
     releaseSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -26,8 +27,9 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
 
     //Sustain
     sustainSlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    sustainSlider.setColour(Slider::trackColourId, Colours::black);
-    sustainSlider.setColour(Slider::thumbColourId, Colours::black);
+    sustainSlider.setColour(Slider::trackColourId, Colours::floralwhite);
+    sustainSlider.setColour(Slider::thumbColourId, Colours::floralwhite);
+    sustainSlider.setColour(Slider::rotarySliderFillColourId, Colours::floralwhite);
     sustainSlider.setRange(0.1f, 1.0f);
     sustainSlider.setValue(1.0f);
     sustainSlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -36,8 +38,9 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
 
     //Decay
     decaySlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    decaySlider.setColour(Slider::trackColourId, Colours::black);
-    decaySlider.setColour(Slider::thumbColourId, Colours::black);
+    decaySlider.setColour(Slider::trackColourId, Colours::floralwhite);
+    decaySlider.setColour(Slider::thumbColourId, Colours::floralwhite);
+    decaySlider.setColour(Slider::rotarySliderFillColourId, Colours::floralwhite);
     decaySlider.setRange(0.1f, 2000.0f);
     decaySlider.setValue(1.0f);
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -47,14 +50,8 @@ Envelope::Envelope(SynthAudioProcessor& p) : processor(p) {
 Envelope::~Envelope() {}
 
 void Envelope::paint(Graphics& g) {
-    //Background
-    juce::Rectangle<float> area(25, 25, 550, 150);
-    g.setColour(Colours::grey);
-    g.drawRect(area, 5.0f);
-    g.fillRect(area);
-
     //Text
-    juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
+    juce::Rectangle<int> titleArea(0, 20, getWidth(), 20);
     g.setColour(Colours::white);
     g.drawText("Envelope", titleArea, Justification::centredTop);
     g.drawText("Attack", 43, 90, 60, 30, Justification::centredBottom);

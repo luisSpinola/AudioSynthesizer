@@ -41,6 +41,8 @@
       <FILE id="KL9xin" name="VisualHandler.cpp" compile="1" resource="0"
             file="Source/VisualHandler.cpp"/>
       <FILE id="ZPPhdR" name="MidiHandler.cpp" compile="1" resource="0" file="Source/MidiHandler.cpp"/>
+      <FILE id="qAfkt1" name="FilterBox.cpp" compile="1" resource="0" file="Source/FilterBox.cpp"/>
+      <FILE id="NRGCcQ" name="FilterBox.h" compile="0" resource="0" file="Source/FilterBox.h"/>
       <FILE id="Ioj3DM" name="MidiHandler.h" compile="0" resource="0" file="Source/MidiHandler.h"/>
       <FILE id="YTmbSj" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    SynthVoice.h
-    Created: 27 Mar 2020 2:34:36am
-    Author:  DaSno
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include <JuceHeader.h>
@@ -25,6 +15,7 @@ class SynthVoice : public SynthesiserVoice{
             masterGain = *gain;
             pitchBendUpSemitones = *pbup;
             pitchBendDownSemitones = *pbdn;
+            //frequency = frequency + (*pbup * 10) ;
         }
 
         //PITCH
@@ -44,9 +35,10 @@ class SynthVoice : public SynthesiserVoice{
                 return pitchBend * pitchBendDownSemitones * 100;
             }
         }
-        static double noteHz(int midiNoteNumber, double centsOffset) {
+        double noteHz(int midiNoteNumber, double centsOffset) {
             double hertz = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-            hertz *= std::pow(2.0, centsOffset / 1200);
+            //hertz *= std::pow(2.0, centsOffset / 1200);
+            hertz = hertz + (pitchBendUpSemitones*10.0f);
             return hertz;
         }
 
@@ -233,10 +225,7 @@ class SynthVoice : public SynthesiserVoice{
         void controllerMoved(int controllerNumber, int newControllerValue) override {}
 
         void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override {
-            //env1.setDecay(500);
-            //env1.setSustain(0.8);
             for (int sample = 0; sample < numSamples; ++sample) {
-                //double filteredSound = filter1.lores(theSound, 100, 0.1);
                 for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
                     outputBuffer.addSample(channel, startSample, getEnvelope() * masterGain);
                 }

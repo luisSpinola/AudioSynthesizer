@@ -4,7 +4,7 @@
 VisualHandler::VisualHandler() : AudioVisualiserComponent(1) {
 	setBufferSize(128);
 	setSamplesPerBlock(32);
-	setColours(Colours::grey, Colours::black);
+	setColours(Colours::black, Colours::floralwhite);
 }
 
 VisualHandler::~VisualHandler(){
